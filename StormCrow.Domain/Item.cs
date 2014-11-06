@@ -7,13 +7,13 @@ namespace StormCrow.Domain
 {
     public class Item
     {
-        [ForeignKey("Pallet")]
         public int SerialShippingContainerCode { get; set; }
         public int ProductId { get; set; }
-        
-        [ForeignKey("ProductId")]
+
+        public double CurrentQuantity { get; set; }
+        public double OriginalQuantity { get; set; }
+
         public virtual Product Product { get; set; }
-        
         public virtual Pallet Pallet { get; set; }
     }
 }

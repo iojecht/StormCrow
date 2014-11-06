@@ -1,29 +1,55 @@
+using StormCrow.Data;
+using StormCrow.Domain;
+using System;
 using System.Data.Entity.Migrations;
-using StormCrow.Web.Data;
 
 namespace StormCrow.Web.Migrations
 {
-    internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<StormCrowDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(ApplicationDbContext context)
+        protected override void Seed(StormCrowDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            context.Products.Add(new Product()
+            {
+                Id = 1,
+                Code = "XXX-XXX-XXX-XX",
+                Description = "Product Description 1",
+                Name = "XXX-XXX-XXX-XX",
+                ShortName = "XXXXXX"
+            });
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+            context.Pallets.Add(new Pallet()
+            {
+                OwnerOrganizationId = 1,
+                BatchCode = "BATCHCODE-XXXXXX",
+                ManufactureDate = DateTime.Now,
+                ReceiptDate = DateTime.Now,
+                SerialShippingContainerCode = 1234567890
+            });
+
+            context.Organizations.Add(new Organization()
+            {
+                Id = 1,
+                Name = "Storm Crow Corp"
+            });
+
+            var pallet = context.Pallets.Find(1234567890);
+            var product = context.Products.Find(1);
+
+            context.Items.Add(new Item()
+            {
+                Pallet = pallet,
+                SerialShippingContainerCode = pallet.SerialShippingContainerCode,
+                Product = product,
+                ProductId = product.Id,
+                CurrentQuantity = 1000,
+                OriginalQuantity = 1000
+            });
         }
     }
 }

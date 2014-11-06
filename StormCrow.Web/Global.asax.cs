@@ -1,89 +1,36 @@
-﻿using System.Web;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using StormCrow.Web.Infrastructure;
-using StormCrow.Web.Infrastructure.Tasks;
+using StormCrow.Web.DependencyResolution;
 using StructureMap;
 
 namespace StormCrow.Web
 {
-    public class WebApiApplication : System.Web.HttpApplication
+    public class MvcApplication : System.Web.HttpApplication
     {
-        public IContainer Container
-        {
-            get { return HttpContext.Current.Items["_Container"] as IContainer; }
-            set { HttpContext.Current.Items["_Container"] = value; }
-        }
-
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
-            DependencyResolver.SetResolver(
-                new StructureMapDependencyResolver(() => Container ?? ObjectFactory.Container));
-
-            ObjectFactory.Configure(cfg =>
-            {
-                cfg.AddRegistry(new StandardRegistry());
-                cfg.AddRegistry(new ControllerRegistry());
-                //cfg.AddRegistry(new ActionFilterRegistry());
-                cfg.AddRegistry(new MvcRegistry());
-                cfg.AddRegistry(new TaskRegistry());
-            });
-
-            using (var container = ObjectFactory.Container.GetNestedContainer())
-            {
-                foreach (var task in container.GetAllInstances<IRunAtInit>())
-                {
-                    task.Execute();
-                }
-
-                foreach (var task in container.GetAllInstances<IRunAtStartup>())
-                {
-                    task.Execute();
-                }
-            }
+            //StructuremapMvc.Start();
         }
 
-        public void Application_BeginRequest()
-        {
-            Container = ObjectFactory.Container.GetNestedContainer();
+        //protected void Application_End()
+        //{
+        //    StructuremapMvc.End();
+        //}
 
-            foreach (var task in Container.GetAllInstances<IRunOnEachRequest>())
-            {
-                task.Execute();
-            }
-        }
-
-        public void Application_Error()
-        {
-            foreach (var task in Container.GetAllInstances<IRunOnError>())
-            {
-                task.Execute();
-            }
-        }
-
-        public void Application_EndRequest()
-        {
-            try
-            {
-                foreach (var task in Container.GetAllInstances<IRunAfterEachRequest>())
-                {
-                    task.Execute();
-                }
-            }
-            finally
-            {
-                Container.Dispose();
-                Container = null;
-            }
-        }
+        //protected void Application_BeginRequest()
+        //{
+        //    StructuremapWebApi.Start();
+        //}
     }
 }

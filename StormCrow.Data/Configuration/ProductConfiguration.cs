@@ -8,7 +8,7 @@ namespace StormCrow.Data.Configuration
     {
         public ProductConfiguration()
         {
-            
+            Property(p => p.Code).IsRequired();
         }
     }
 }

@@ -13,10 +13,8 @@ namespace StormCrow.Domain
         public string BatchCode { get; set; }
         public virtual int OwnerOrganizationId { get; set; }
 
-        [Required]
         public virtual Organization OwnerOrganization { get; set; }
 
-        [Required]
         public virtual ICollection<Item> Items { get; set; }
     }
 }

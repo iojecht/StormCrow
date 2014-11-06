@@ -8,18 +8,17 @@ namespace StormCrow.Data.Configuration
     {
         public ItemConfiguration()
         {
-            HasKey(a => new {a.SerialShippingContainerCode, a.ProductId});
-
-            HasRequired(p => p.Pallet)
-                .WithMany(s => s.Items)
-                .HasForeignKey(p => p.SerialShippingContainerCode)
-                .WillCascadeOnDelete(false);
+            HasKey(p => new {p.SerialShippingContainerCode, p.ProductId});
 
             HasRequired(p => p.Product)
-                .WithMany(s => s.Items)
+                .WithMany(p => p.Items)
                 .HasForeignKey(p => p.ProductId)
                 .WillCascadeOnDelete(false);
                 
+            HasRequired(p => p.Pallet)
+                .WithMany(p => p.Items)
+                .HasForeignKey(p => p.SerialShippingContainerCode)
+                .WillCascadeOnDelete(false);
         }
     }
 }

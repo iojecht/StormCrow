@@ -8,9 +8,9 @@ namespace StormCrow.Data.Configuration
     {
         public PalletConfiguration()
         {
-            HasRequired(p => p.OwnerOrganization)
-                .WithMany(s => s.Pallets)
-                .HasForeignKey(p => p.OwnerOrganizationId)
+            HasMany(p => p.Items)
+                .WithRequired(p => p.Pallet)
+                .HasForeignKey(p => p.SerialShippingContainerCode)
                 .WillCascadeOnDelete(false);
         }
     }

@@ -16,7 +16,7 @@ namespace StormCrow.Data
 
         static StormCrowDbContext()
         {
-            System.Data.Entity.Database.SetInitializer(new StormCrowDatabaseInitializer());
+            Database.SetInitializer(new DatabaseInitializer());
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -24,7 +24,9 @@ namespace StormCrow.Data
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
             modelBuilder.Configurations.Add(new PalletConfiguration());
+            modelBuilder.Configurations.Add(new ProductConfiguration());
             modelBuilder.Configurations.Add(new ItemConfiguration());
+            modelBuilder.Configurations.Add(new OrganizationConfiguration());
         }
     }
 }

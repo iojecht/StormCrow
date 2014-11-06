@@ -30,10 +30,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,15 +48,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ItemConfiguration.cs" />
+    <Compile Include="Configuration\OrganizationConfiguration.cs" />
     <Compile Include="Configuration\PalletConfiguration.cs" />
     <Compile Include="Configuration\ProductConfiguration.cs" />
-    <Compile Include="Contract\IPalletRepository.cs" />
+    <Compile Include="Contract\IItemRepository.cs" />
     <Compile Include="IRepository.cs" />
+    <Compile Include="IRepositoryProvider.cs" />
     <Compile Include="ItemRepository.cs" />
+    <Compile Include="IUnitOfWork.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StormCrowDatabaseInitializer.cs" />
+    <Compile Include="DatabaseInitializer.cs" />
+    <Compile Include="RepositoryFactory.cs" />
+    <Compile Include="RepositoryProvider.cs" />
     <Compile Include="StormCrowDbContext.cs" />
-    <Compile Include="StormCrowRepository.cs" />
+    <Compile Include="GenericRepository.cs" />
+    <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StormCrow.Domain\StormCrow.Domain.csproj">
@@ -59,7 +71,10 @@
       <Name>StormCrow.Domain</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

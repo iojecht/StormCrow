@@ -1,4 +1,7 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Http;
 
 namespace StormCrow.Web
 {
@@ -7,9 +10,7 @@ namespace StormCrow.Web
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
-            // Configure Web API to use only bearer token authentication.
-            config.SuppressDefaultHostAuthentication();
-            
+
             // Web API routes
             config.MapHttpAttributeRoutes();
 
