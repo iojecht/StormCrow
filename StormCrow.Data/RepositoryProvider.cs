@@ -7,7 +7,7 @@ namespace StormCrow.Data
     public class RepositoryProvider : IRepositoryProvider
     {
         public DbContext DbContext { get; set; }
-        private RepositoryFactory _repositoryFactories;
+        private RepositoryFactory _repositoryFactories { get; set; }
         protected Dictionary<Type, object> Repositories { get; private set; }
 
         public RepositoryProvider(RepositoryFactory repositoryFactories)

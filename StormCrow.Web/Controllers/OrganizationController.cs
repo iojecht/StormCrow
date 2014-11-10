@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using StormCrow.Data;
 
 namespace StormCrow.Web.Controllers
 {
-    public class OrganizationController : ApiController
+    public class OrganizationController : ApiControllerBase
     {
-        private IUnitOfWork Uow { get; set; }
-
         public OrganizationController(IUnitOfWork uow)
         {
             Uow = uow;
@@ -20,7 +15,7 @@ namespace StormCrow.Web.Controllers
         // GET: api/Organization
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return Uow.Organizations.GetAll().OrderBy(o => o.Name).Select(p => p.Name);
         }
 
         // GET: api/Organization/5

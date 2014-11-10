@@ -35,11 +35,11 @@ namespace StormCrow.Web.DependencyResolution {
                     scan.TheCallingAssembly();
                     scan.WithDefaultConventions();
                 });
-            For<IUnitOfWork>().Use<UnitOfWork>();
             For<IUserStore<ApplicationUser>>().Use<UserStore<ApplicationUser>>();
             For<DbContext>().Use(() => new ApplicationDbContext());
-            For<RepositoryFactory>().Use<RepositoryFactory>().Singleton();
             For<IRepositoryProvider>().Use<RepositoryProvider>();
+            For<RepositoryFactory>().Use<RepositoryFactory>().Singleton();
+            For<IUnitOfWork>().Use<UnitOfWork>();
         }
 
         #endregion

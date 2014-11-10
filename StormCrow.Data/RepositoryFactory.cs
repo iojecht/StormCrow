@@ -2,12 +2,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
+using StormCrow.Data.Contract;
 
 namespace StormCrow.Data
 {
     public class RepositoryFactory
     {
-        private readonly IDictionary<Type, Func<DbContext, object>> _repositoryFactories;
+        private IDictionary<Type, Func<DbContext, object>> _repositoryFactories;
+
+        // Factories - Must modify if adding new custom repository
+        public IDictionary<Type,Func<DbContext,Object>> GetStormCrowFactories()
+        {
+            return new Dictionary<Type, Func<DbContext, object>>()
+            {
+                {typeof (IItemRepository), dbContext => new ItemRepository(dbContext)}
+            };
+        }
+
+        public RepositoryFactory()
+        {
+            _repositoryFactories = GetStormCrowFactories();
+        }
 
         public Func<DbContext, object> GetRepositoryFactory<T>()
         {
